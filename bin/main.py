@@ -4,32 +4,35 @@ import pandas as pd
 
 def main():
     dtNow = datetime.datetime.now()
-    df = pd.read_csv('../conf/shiai.csv')
+    df = pd.read_csv('../conf/games_sanf.csv')
     for i in df.itertuples():
         print('対象：' + str(i[1]) + ' , ' + str(i[8]))
-        # if(i[1]==1):
-        #     print("break")
-        #     break
-        # else:
-        noticeGameSchedule(dtNow, datetime.datetime.strptime(i[2]+' '+i[3],'%Y/%m/%d %H:%M:%S'))
+        date_str = str(i[2] + ' ' + str(i[3]))
+        if(checkDate(date_str)):
+            noticeGameSchedule(dtNow, datetime.datetime.strptime(date_str,'%Y/%m/%d %H:%M:%S'))
+        else:
+            print('日付形式がおかしいのでスキップ')
+            continue
     
 def noticeGameSchedule(beforeTime, dtNow):
     print("method start --noticeGameStarting-- ")
     diffTime = dtNow - beforeTime
-    if (diffTime < datetime.timedelta(hours=7*24) and datetime.timedelta(hours=24) <= diffTime) :
-        doNotice('来週くらいに試合があるで。応援しようや。')
+    if (diffTime >= datetime.timedelta(hours=7*24)) :
+        doNotice('リマインド対象外（まだだいぶ先）')
+    elif (diffTime < datetime.timedelta(hours=7*24) and datetime.timedelta(hours=24) <= diffTime) :
+        doNotice('来週くらいに試合があるで。')
     elif (diffTime < datetime.timedelta(hours=24) and datetime.timedelta(hours=1) <= diffTime):
-        doNotice('明日くらいに試合があるで。応援しようや。')
+        doNotice('明日くらいに試合があるで。')
     elif (diffTime < datetime.timedelta(minutes=15) and datetime.timedelta(hours=0) <= diffTime):
-        doNotice('もうすぐ試合はじまるで。応援しようや。')
+        doNotice('もうすぐ試合はじまるで。')
     elif (diffTime < datetime.timedelta(hours=0) and datetime.timedelta(minutes=-30) <= diffTime):
-        doNotice('30分くらい過ぎとるけどまだ間に合うで応援しようや。')
+        doNotice('30分くらい過ぎとるけどまだ間に合うで、応援しようや。')
     elif (diffTime < datetime.timedelta(minutes=-30) and datetime.timedelta(minutes=-80) <= diffTime):
-        doNotice('多分もう終盤じゃけどまだ間に合うで応援しようや。')
+        doNotice('多分もう終盤じゃけどまだ間に合うで、応援しようや。')
     elif (diffTime < datetime.timedelta(minutes=-80)):
-        setOwataF()
+        print('リマインド対象じゃない（もうおわってる）')
     else :
-        print('リマインド対象じゃない')
+        print('例外')
    
     print("method end --noticeGameStarting-- ")
     print("")
@@ -40,10 +43,12 @@ def doNotice(str):
     print(str)
     print("method end --doNotice-- ")
 
-def setOwataF():
-    #OwataFを1に上書く。
-    print("method start --setOwataFlag-- ")
-    print("method end --setOwataFlag-- ")
+def checkDate(date_str):
+    try:
+        newDate=datetime.datetime.strptime(date_str,'%Y/%m/%d %H:%M:%S')
+        return True
+    except ValueError:
+        return False
     
 if __name__== "__main__":
     main()
