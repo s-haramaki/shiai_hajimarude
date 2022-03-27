@@ -1,6 +1,7 @@
 import csv
 import datetime
 import pandas as pd
+import re
 
 def main():
     dtNow = datetime.datetime.now()
@@ -8,11 +9,15 @@ def main():
     for i in df.itertuples():
         print('対象：' + str(i[1]) + ' , ' + str(i[8]))
         date_str = str(i[2] + ' ' + str(i[3]))
-        if(checkDate(date_str)):
-            noticeGameSchedule(dtNow, datetime.datetime.strptime(date_str,'%Y/%m/%d %H:%M:%S'))
-        else:
-            print('日付形式がおかしいのでスキップ')
+        subject = str(i[1])
+        if(not(checkDate(date_str))):
+            print('日付形式がおかしい（まだ入ってない）のでスキップ')
             continue
+        elif(re.search("^TM.*",subject) != None):
+            print('TMなのでスキップ')
+            continue
+        else:            
+            noticeGameSchedule(dtNow, datetime.datetime.strptime(date_str,'%Y/%m/%d %H:%M:%S'))
     
 def noticeGameSchedule(beforeTime, dtNow):
     print("method start --noticeGameStarting-- ")
