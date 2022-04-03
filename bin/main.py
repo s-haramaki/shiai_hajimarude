@@ -19,7 +19,7 @@ def main():
         location = str(i.Location)
         logging.info('対象: ' + game_id + ' @' + location)
         date_str = str(i[2]) + ' ' + str(i[3])
-        msg = '\n\n======================\n' + game_id + '\n @' + location + '\n ' + date_str + ' KickOff' + '\n======================\n\n' + '正確な試合日程は公式で確認してな。変更されとるかもしれんで。\n' + 'https://www.sanfrecce.co.jp/matches/results'
+        msg = '\n\n======================\n' + game_id + '\n  @' + location + '\n ' + date_str + '  KickOff' + '\n======================\n\n' + '正確な試合日程は公式で確認してな。変更されとるかもしれんで。\n' + 'https://www.sanfrecce.co.jp/matches/results'
         if(not(checkDate(date_str))):
             logging.info('日付形式がおかしい（まだ入ってない）のでスキップ')
         elif(re.search("^TM.*",subject) != None):
