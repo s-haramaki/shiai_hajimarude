@@ -5,15 +5,19 @@ import logging
 import re
 import os
 import sys
+import twitter
+import tweepy
+import keys
 
 def main():
+    logging.info("======MAIN METHOD START======")
     dtNow = datetime.datetime.now()
     df = pd.read_csv('../conf/games_sanf.csv')
     for i in df.itertuples():
         subject = str(i.Subject)
         game_id = str(i.Description) + '_' + subject
         location = str(i.Location)
-        logging.info('対象：' + game_id + ' @' + location)
+        logging.info('対象: ' + game_id + ' @' + location)
         date_str = str(i[2]) + ' ' + str(i[3])
         msg = '\n' + game_id + ' @' + location + ' ' + date_str + ' KickOff'
         if(not(checkDate(date_str))):
@@ -22,6 +26,7 @@ def main():
             logging.info('TMなのでスキップ')
         else:            
             noticeGameSchedule(msg, game_id, dtNow, datetime.datetime.strptime(date_str,'%Y/%m/%d %H:%M:%S'))
+    logging.info("======MAIN METHOD END======")
     
 def noticeGameSchedule(msg, game_id, dtNow, game_date):
     logging.info("===METHOD START--noticeGameStarting-- ===")
@@ -73,7 +78,13 @@ def doNotice(game_id, remind_kbn, msg):
         with open('../elements/' + game_id + '_' + remind_kbn, 'w' ,encoding='utf-8') as f:
             f.write('')
         #TODO Twitter API 実行
-        print (msg)
+        # 取得したキーとアクセストークンを設定する
+        client = tweepy.Client(consumer_key=keys.consumer_key,consumer_secret=keys.consumer_secret,access_token=keys.token,access_token_secret=keys.token_secret)
+        # print(auth)
+        logging.info("tweetします： " + "\n" + msg + "\n")
+        client.create_tweet(text=msg)
+        logging.info("tweetしました： " + "\n" + msg + "\n")
+
     logging.info("===METHOD START --doNotice-- ===")
 
 def checkDate(date_str):

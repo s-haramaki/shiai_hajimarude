@@ -1,2 +1,4 @@
 log/*
 elements/*
+conf/keys.py
+bin/keys.py
