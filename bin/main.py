@@ -19,7 +19,7 @@ def main():
         location = str(i.Location)
         logging.info('対象: ' + game_id + ' @' + location)
         date_str = str(i[2]) + ' ' + str(i[3])
-        msg = '\n' + game_id + ' @' + location + ' ' + date_str + ' KickOff'
+        msg = '\n\n======================\n' + game_id + '\n @' + location + '\n ' + date_str + ' KickOff' + '\n======================\n\n' + '正確な試合日程は公式で確認してな。変更されとるかもしれんで。\n' + 'https://www.sanfrecce.co.jp/matches/results'
         if(not(checkDate(date_str))):
             logging.info('日付形式がおかしい（まだ入ってない）のでスキップ')
         elif(re.search("^TM.*",subject) != None):
@@ -41,15 +41,15 @@ def noticeGameSchedule(msg, game_id, dtNow, game_date):
         logging.info('リマインド対象外（まだだいぶ先）')
     elif (diffTime < datetime.timedelta(hours=7*24) and datetime.timedelta(hours=24) <= diffTime) :
         remind_kbn = raishu
-        msg = '来週くらいに試合があるで。' + msg
+        msg = '来週くらいに試合があるで。チケット買うた？' + msg
         doNotice(game_id,remind_kbn,msg)
     elif (diffTime < datetime.timedelta(hours=24) and datetime.timedelta(hours=1) <= diffTime):
         remind_kbn = ashita
-        msg = '明日くらいに試合があるで。' + msg
+        msg = '明日くらいに試合があるで。忘れとらん？' + msg
         doNotice(game_id,remind_kbn,msg)
     elif (diffTime < datetime.timedelta(minutes=15) and datetime.timedelta(hours=0) <= diffTime):
         remind_kbn = mosugu
-        msg = 'もうすぐ試合はじまるで。' + msg
+        msg = 'もうすぐ試合はじまるで。DAZN起動しときーよ。' + msg
         doNotice(game_id,remind_kbn,msg)
     elif (diffTime < datetime.timedelta(hours=0) and datetime.timedelta(minutes=-30) <= diffTime):
         remind_kbn = joban
@@ -104,7 +104,6 @@ if __name__== "__main__":
             dt_now_log.strftime('%Y%m%d%H%M%S') + '.log',
             filemode='w',  # Default is 'a'
             format=MYFORMAT,
-            encoding='utf-8',
             datefmt='%Y-%m-%d %H:%M:%S',
             level=logging.INFO)
         
