@@ -1,11 +1,8 @@
-import csv
 import datetime
 import pandas as pd
 import logging
 import re
 import os
-import sys
-import twitter
 import tweepy
 import keys
 
@@ -19,7 +16,7 @@ def main():
         location = str(i.Location)
         logging.info('対象: ' + game_id + ' @' + location)
         date_str = str(i[2]) + ' ' + str(i[3])
-        msg = '\n\n======================\n' + game_id + '\n  @' + location + '\n ' + date_str + '  KickOff' + '\n======================\n\n' + '正確な試合日程は公式で確認してな。変更されとるかもしれんで。\n' + 'https://www.sanfrecce.co.jp/matches/results'
+        msg = '\n\n======================\n' + game_id + '\n  @' + location + '\n  ' + date_str + '  KickOff' + '\n======================\n\n' + '正確な試合日程は公式で確認してな。変更されとるかもしれんで。\n' + 'https://www.sanfrecce.co.jp/matches/results'
         if(not(checkDate(date_str))):
             logging.info('日付形式がおかしい（まだ入ってない）のでスキップ')
         elif(re.search("^TM.*",subject) != None):
@@ -81,9 +78,9 @@ def doNotice(game_id, remind_kbn, msg):
         # 取得したキーとアクセストークンを設定する
         client = tweepy.Client(consumer_key=keys.consumer_key,consumer_secret=keys.consumer_secret,access_token=keys.token,access_token_secret=keys.token_secret)
         # print(auth)
-        logging.info("tweetします： " + "\n" + msg + "\n")
+        logging.info("tweetします:  " + "\n" + msg + "\n")
         client.create_tweet(text=msg)
-        logging.info("tweetしました： " + "\n" + msg + "\n")
+        logging.info("tweetしました:  " + "\n" + msg + "\n")
 
     logging.info("===METHOD START --doNotice-- ===")
 
