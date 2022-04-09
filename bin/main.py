@@ -104,7 +104,6 @@ if __name__== "__main__":
             dt_now_log.strftime('%Y%m%d%H%M%S') + '.log',
             filemode='w',  # Default is 'a'
             format=MYFORMAT,
-            encoding='utf-8',
             datefmt='%Y-%m-%d %H:%M:%S',
             level=logging.INFO)
         
