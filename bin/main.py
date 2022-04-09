@@ -38,24 +38,25 @@ def noticeGameSchedule(msg, game_id, dtNow, game_date):
         logging.info('リマインド対象外（まだだいぶ先）')
     elif (diffTime < datetime.timedelta(hours=7*24) and datetime.timedelta(hours=24) <= diffTime) :
         remind_kbn = raishu
-        msg = '来週くらいに試合があるで。チケット買うた？' + msg
+        msg = '来週試合があるで。チケット買うた？' + msg
         doNotice(game_id,remind_kbn,msg)
     elif (diffTime < datetime.timedelta(hours=24) and datetime.timedelta(hours=1) <= diffTime):
         remind_kbn = ashita
-        msg = '明日くらいに試合があるで。忘れとらん？' + msg
+        msg = '明日試合があるで。忘れとらん？' + msg
         doNotice(game_id,remind_kbn,msg)
     elif (diffTime < datetime.timedelta(minutes=15) and datetime.timedelta(hours=0) <= diffTime):
         remind_kbn = mosugu
         msg = 'もうすぐ試合はじまるで。DAZN起動しときーよ。' + msg
         doNotice(game_id,remind_kbn,msg)
-    elif (diffTime < datetime.timedelta(hours=0) and datetime.timedelta(minutes=-30) <= diffTime):
-        remind_kbn = joban
-        msg = 'もうはじまっとるけどまだ序盤で、応援しようや。' + msg
-        doNotice(game_id,remind_kbn,msg)
-    elif (diffTime < datetime.timedelta(minutes=-30) and datetime.timedelta(minutes=-80) <= diffTime):
-        remind_kbn = shuban
-        msg = '多分もう終盤じゃけどまだ間に合うで、応援しようや。' + msg
-        doNotice(game_id,remind_kbn,msg)
+    # TODO TimeDeltaがマイナスだと計算結果がおかしくなるのでコメントアウトいつかやる
+    # elif (diffTime < datetime.timedelta(hours=0) and datetime.timedelta(minutes=-30) <= diffTime):
+    #     remind_kbn = joban
+    #     msg = 'もうはじまっとるけどまだ序盤じぇけ応援しようや。' + msg
+    #     doNotice(game_id,remind_kbn,msg)
+    # elif (diffTime < datetime.timedelta(minutes=-30) and datetime.timedelta(minutes=-80) <= diffTime):
+    #     remind_kbn = shuban
+    #     msg = '多分もう終盤じゃけどまだ間に合うで、応援しようや。' + msg
+    #     doNotice(game_id,remind_kbn,msg)
     elif (diffTime < datetime.timedelta(minutes=-80)):
         logging.info('リマインド対象じゃない（もうおわってる）')
     else :
