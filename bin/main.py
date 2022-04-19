@@ -36,7 +36,7 @@ def noticeGameSchedule(msg, game_id, dtNow, game_date):
     
     if (diffTime >= datetime.timedelta(hours=7*24)) :
         logging.info('リマインド対象外（まだだいぶ先）')
-    elif (diffTime < datetime.timedelta(hours=6*24) and datetime.timedelta(hours=24) <= diffTime) :
+    elif (diffTime < datetime.timedelta(hours=7*24) and datetime.timedelta(hours=24) <= diffTime) :
         remind_kbn = raishu
         msg = '来週試合があるで。チケット買うた？' + msg
         doNotice(game_id,remind_kbn,msg)
