@@ -46,7 +46,7 @@ def noticeGameSchedule(msg, game_id, dtNow, game_date):
         doNotice(game_id,remind_kbn,msg)
     elif (diffTime < datetime.timedelta(minutes=15) and datetime.timedelta(hours=0) <= diffTime):
         remind_kbn = mosugu
-        msg = 'もうすぐ試合はじまるで。DAZN起動しときーよ。' + msg
+        msg = 'もうすぐ試合はじまるで。' + msg
         doNotice(game_id,remind_kbn,msg)
     # TODO TimeDeltaがマイナスだと計算結果がおかしくなるのでコメントアウトいつかやる
     # elif (diffTime < datetime.timedelta(hours=0) and datetime.timedelta(minutes=-30) <= diffTime):
